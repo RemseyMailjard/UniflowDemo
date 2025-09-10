@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uniFLOW Online — Demo Mockup (Canon)</title>
+    <style>
+        :root {
+            --bg: #0f1115;
+            --panel: #151923;
+            --ink: #e6eaf2;
+            --muted: #9aa3b2;
+            --brand: #e6002d;
+            /* Canon red (approx, for demo only) */
+            --ok: #1db954;
+            --warn: #f5a524;
+            --bad: #ef4444;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+            --radius: 16px;
+            --ring: 0 0 0 3px rgba(230, 0, 45, .25);
+        }
+
+        [data-theme="light"] {
+            --bg: #f7f8fb;
+            --panel: #ffffff;
+            --ink: #0b1424;
+            --muted: #51607a;
+            --shadow: 0 10px 30px rgba(12, 19, 31, .08);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(10, 14, 22, .98) 100%);
+            color: var(--ink);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(0, 0, 0, .25);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        [data-theme="light"] .nav {
+            background: rgba(255, 255, 255, .7);
+            border-bottom-color: rgba(10, 14, 22, .06);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px
+        }
+
+        .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-weight: 800;
+            letter-spacing: .2px
+        }
+
+        .brand-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--brand)
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            transition: .2s;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .btn {
+            border-color: rgba(10, 14, 22, .12);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+
+        .btn.primary {
+            background: var(--brand);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow);
+        }
+
+        .btn.ghost {
+            background: var(--panel)
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        [data-theme="light"] .card {
+            border-color: rgba(10, 14, 22, .06);
+        }
+
+        .card.pad {
+            padding: 20px;
+        }
+
+        .kicker {
+            color: var(--brand);
+            font-weight: 800;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            font-size: 12px
+        }
+
+        h1 {
+            margin: .2em 0 .4em 0;
+            font-size: 40px;
+            line-height: 1.1
+        }
+
+        .lead {
+            color: var(--muted);
+            max-width: 60ch
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px
+        }
+
+        .chip {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px dashed rgba(255, 255, 255, .2);
+            color: var(--muted)
+        }
+
+        [data-theme="light"] .chip {
+            border-color: rgba(10, 14, 22, .15);
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px
+        }
+
+        .grid.cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .stat {
+            padding: 16px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(0, 0, 0, .05));
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        [data-theme="light"] .stat {
+            border-color: rgba(10, 14, 22, .06);
+        }
+
+        .stat .value {
+            font-size: 26px;
+            font-weight: 800;
+            margin-top: 4px
+        }
+
+        .stat .label {
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .bad {
+            color: var(--bad)
+        }
+
+        .ok {
+            color: var(--ok)
+        }
+
+        .warn {
+            color: var(--warn)
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .tab {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--muted)
+        }
+
+        .tab.active {
+            color: var(--ink);
+            border-color: rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        [data-theme="light"] .tab.active {
+            border-color: rgba(10, 14, 22, .12);
+            background: rgba(10, 14, 22, .03)
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .input {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: var(--ink);
+            padding: 10px 12px;
+            border-radius: 10px;
+            outline: none;
+            min-width: 200px;
+        }
+
+        [data-theme="light"] .input {
+            border-color: rgba(10, 14, 22, .12);
+        }
+
+        .input:focus {
+            box-shadow: var(--ring);
+            border-color: var(--brand)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        thead th {
+            text-align: left;
+            font-size: 12px;
+            color: var(--muted);
+            padding: 12px;
+            background: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        [data-theme="light"] thead th {
+            border-bottom-color: rgba(10, 14, 22, .08);
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px dashed rgba(255, 255, 255, .06)
+        }
+
+        [data-theme="light"] tbody td {
+            border-bottom-color: rgba(10, 14, 22, .06);
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .badge {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            color: var(--muted)
+        }
+
+        .badge.ok {
+            border-color: rgba(29, 185, 84, .4);
+            color: var(--ok)
+        }
+
+        .badge.warn {
+            border-color: rgba(245, 165, 36, .4);
+            color: var(--warn)
+        }
+
+        .badge.bad {
+            border-color: rgba(239, 68, 68, .4);
+            color: var(--bad)
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            padding: 40px 0
+        }
+
+        /* modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            width: min(560px, 96vw);
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 16px;
+            box-shadow: var(--shadow)
+        }
+
+        .modal header,
+        .modal footer {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .modal footer {
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            border-bottom: none;
+            display: flex;
+            justify-content: end;
+            gap: 8px
+        }
+
+        .modal .body {
+            padding: 16px 20px
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        @media (max-width:640px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .select,
+        .input.full {
+            width: 100%
+        }
+
+        .pill {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(230, 0, 45, .08);
+            color: var(--brand);
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .cta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 14px
+        }
+
+        .tiny {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+
+        @media (max-width:920px) {
+            .split {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ghostline {
+            height: 8px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, .12), transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAV -->
+    <div class="nav">
+        <div class="nav-inner">
+            <div class="brand">
+                <div class="brand-dot"></div>
+                <span>uniFLOW Online — Demo</span>
+                <span class="pill">Mock • Training</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn ghost" id="themeToggle" aria-label="Toggle theme">🌗 Theme</button>
+                <button class="btn ghost" id="tenantSwitch">🏢 Tenant: Canon Europe</button>
+                <button class="btn primary" id="openAddDevice">➕ Add Device</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="card pad">
+                <div class="kicker">Secure printing • Scan workflows • Cost control</div>
+                <h1>Manage print & scan in the cloud</h1>
+                <p class="lead">
+                    Lightweight mockup to demo uniFLOW Online concepts: secure print release, device fleet,
+                    job queue, user policies, cost centers and analytics — all in a single offline HTML file.
+                </p>
+                <div class="chips">
+                    <span class="chip">Follow-You Printing® (demo)</span>
+                    <span class="chip">Azure AD users</span>
+                    <span class="chip">Card/Pin release (mock)</span>
+                    <span class="chip">Cost Centers</span>
+                    <span class="chip">Scan to Cloud</span>
+                </div>
+                <div class="cta">
+                    <button class="btn primary" id="quickTour">▶ Quick Tour</button>
+                    <button class="btn" id="exportState">⭳ Export demo state</button>
+                    <span class="tiny">All data is fake & volatile in memory.</span>
+                </div>
+            </div>
+            <div class="card pad">
+                <div class="grid cols-2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="stat">
+                        <div class="label">Print Jobs Today</div>
+                        <div class="value" id="jobsToday">128</div>
+                        <div class="tiny">Queue: <span id="queueLen">17</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Active Devices</div>
+                        <div class="value" id="activeDevices">26</div>
+                        <div class="tiny ok">+3 new</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Estimated Cost Saved</div>
+                        <div class="value" id="costSaved">€ 642</div>
+                        <div class="tiny">Rules: duplex, b/w, quotas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">CO₂ Saved</div>
+                        <div class="value" id="co2Saved">14.2 kg</div>
+                        <div class="tiny">Paper saved: 3,280 sheets</div>
+                    </div>
+                </div>
+                <div style="margin-top:14px">
+                    <canvas id="chart" height="120" aria-label="Print volume trend"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABS -->
+        <section class="card pad" style="margin-top:20px">
+            <div class="tabs" role="tablist" aria-label="Sections">
+                <button class="tab active" data-tab="devices" role="tab" aria-selected="true">Devices</button>
+                <button class="tab" data-tab="jobs" role="tab">Job Queue</button>
+                <button class="tab" data-tab="users" role="tab">Users & Policies</button>
+                <button class="tab" data-tab="costs" role="tab">Cost Centers</button>
+                <button class="tab" data-tab="settings" role="tab">Settings</button>
+            </div>
+            <div id="tabContent" style="margin-top:12px">
+                <!-- Devices -->
+                <div class="panel" data-panel="devices">
+                    <div class="toolbar" style="justify-content:space-between; margin-bottom:10px">
+                        <div style="display:flex; gap:8px; flex-wrap:wrap">
+                            <input class="input" id="deviceSearch" placeholder="Search device, IP, location…" />
+                            <select class="input select" id="deviceFilter">
+                                <option value="all">All statuses</option>
+                                <option value="ok">Online</option>
+                                <option value="warn">Degraded</option>
+                                <option value="bad">Offline</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; gap:8px">
+                            <button class="btn" id="refreshDevices">⟳ Refresh</button>
+                            <button class="btn primary" id="openAddDevice2">➕ Add Device</button>
+                        </div>
+                    </div>
+                    <div class="ghostline"></div>
+                    <table aria-label="Device list" style="margin-top:10px">
+                        <thead>
+                            <tr>
+                                <th>Device</th>
+                                <th>IP</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deviceRows"></tbody>
+                    </table>
+                </div>
+
+                <!-- Jobs -->
+                <div class="panel" data-panel="jobs" style="display:none">
+                    <div class="toolbar" style="justify-content:space-between; margin-bottom:10px">
+                        <div style="display:flex; gap:8px; flex-wrap:wrap">
+                            <input class="input" id="jobSearch" placeholder="Search job, owner, doc…" />
+                            <select class="input select" id="jobFilter">
+                                <option value="all">All types</option>
+                                <option value="print">Print</option>
+                                <option value="scan">Scan</option>
+                                <option value="fax">Fax</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; gap:8px">
+                            <button class="btn" id="simulateJob">➕ Simulate job</button>
+                            <button class="btn" id="releaseAll">✅ Release all</button>
+                        </div>
+                    </div>
+                    <div class="split">
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Pending Jobs</h3>
+                            <table aria-label="Job queue" style="margin-top:6px">
+                                <thead>
+                                    <tr>
+                                        <th>Document</th>
+                                        <th>Owner</th>
+                                        <th>Type</th>
+                                        <th>Pages</th>
+                                        <th>Device</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jobRows"></tbody>
+                            </table>
+                        </div>
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Job Preview / Policy</h3>
+                            <div id="jobPreview" class="tiny">Select a job to preview policy suggestions (duplex, b/w,
+                                watermark).</div>
+                            <div style="margin-top:10px">
+                                <label style="display:flex;align-items:center;gap:8px"><input type="checkbox"
+                                        id="policyDuplex" /> Force duplex</label>
+                                <label style="display:flex;align-items:center;gap:8px"><input type="checkbox"
+                                        id="policyBW" /> Enforce B/W</label>
+                                <label style="display:flex;align-items:center;gap:8px"><input type="checkbox"
+                                        id="policyWatermark" /> Add watermark</label>
+                            </div>
+                            <div class="cta" style="margin-top:12px">
+                                <button class="btn primary" id="applyPolicy">Apply Policy to Selected</button>
+                                <button class="btn" id="discardPolicy">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users & Policies -->
+                <div class="panel" data-panel="users" style="display:none">
+                    <div class="split">
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Users</h3>
+                            <div class="toolbar" style="margin-top:6px">
+                                <input class="input" id="userSearch" placeholder="Search user or email…" />
+                                <button class="btn" id="syncAAD">🔄 Sync Azure AD (mock)</button>
+                            </div>
+                            <table style="margin-top:10px">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Group</th>
+                                        <th>Quota</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userRows"></tbody>
+                            </table>
+                        </div>
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Default Policy</h3>
+                            <div class="tiny">Define defaults applied at print submission.</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr; gap:8px; margin-top:10px">
+                                <label>Color:
+                                    <select class="input select" id="polColor">
+                                        <option value="bw">B/W</option>
+                                        <option value="color">Color</option>
+                                    </select>
+                                </label>
+                                <label>Duplex:
+                                    <select class="input select" id="polDuplex">
+                                        <option value="on">On</option>
+                                        <option value="off">Off</option>
+                                    </select>
+                                </label>
+                                <label>Watermark:
+                                    <select class="input select" id="polWatermark">
+                                        <option value="none">None</option>
+                                        <option value="confidential">Confidential</option>
+                                        <option value="draft">Draft</option>
+                                    </select>
+                                </label>
+                                <label>Default Device:
+                                    <select class="input select" id="polDevice"></select>
+                                </label>
+                            </div>
+                            <div class="cta" style="margin-top:10px">
+                                <button class="btn primary" id="saveDefaultPolicy">💾 Save Defaults</button>
+                                <span class="tiny" id="policySavedNote" style="display:none">Saved ✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cost Centers -->
+                <div class="panel" data-panel="costs" style="display:none">
+                    <div class="split">
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Cost Centers</h3>
+                            <div class="toolbar" style="margin:8px 0">
+                                <input class="input" id="ccSearch" placeholder="Search cost center…" />
+                                <button class="btn" id="newCC">➕ Add Cost Center</button>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Monthly Cap</th>
+                                        <th>Used</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ccRows"></tbody>
+                            </table>
+                        </div>
+                        <div class="card pad">
+                            <h3 style="margin:.2em 0">Allocation</h3>
+                            <div class="tiny">Assign groups to cost centers (demo only).</div>
+                            <div class="row" style="margin-top:8px">
+                                <select class="input select" id="ccSelect"></select>
+                                <select class="input select" id="groupSelect">
+                                    <option>All Staff</option>
+                                    <option>Retail NL</option>
+                                    <option>Municipality Ops</option>
+                                    <option>Finance</option>
+                                </select>
+                            </div>
+                            <div class="cta" style="margin-top:10px">
+                                <button class="btn primary" id="assignGroup">Assign Group</button>
+                                <span class="tiny" id="ccAssignedNote" style="display:none">Assigned ✓</span>
+                            </div>
+                            <div class="ghostline" style="margin:12px 0"></div>
+                            <div id="allocationList" class="tiny"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="panel" data-panel="settings" style="display:none">
+                    <div class="grid cols-3">
+                        <div class="card pad">
+                            <h3>Authentication</h3>
+                            <p class="tiny">Azure AD (OIDC) connected • SSO enabled</p>
+                            <button class="btn">Manage connection</button>
+                        </div>
+                        <div class="card pad">
+                            <h3>Release Methods</h3>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox"
+                                    checked /> Card ID</label>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox"
+                                    checked /> PIN</label>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input
+                                    type="checkbox" /> Mobile App</label>
+                        </div>
+                        <div class="card pad">
+                            <h3>Scanning</h3>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox"
+                                    checked /> Scan to OneDrive</label>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input
+                                    type="checkbox" /> Scan to SharePoint</label>
+                            <label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input
+                                    type="checkbox" /> OCR (preview)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            Demo mockup for training purposes • No affiliation • © Your Company
+        </div>
+    </div>
+
+    <!-- MODAL: Add Device -->
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <header><strong id="modalTitle">Add Device</strong></header>
+            <div class="body">
+                <div class="row">
+                    <input class="input full" id="mDeviceName"
+                        placeholder="Device name (e.g., Canon iR-ADV DX C5850i)" />
+                    <input class="input full" id="mDeviceIP" placeholder="IP address (e.g., 10.12.8.51)" />
+                </div>
+                <div class="row" style="margin-top:8px">
+                    <input class="input full" id="mDeviceLoc" placeholder="Location (e.g., EMEA HQ — 3rd Floor)" />
+                    <select class="input select" id="mDeviceStatus">
+                        <option value="ok">Online</option>
+                        <option value="warn">Degraded</option>
+                        <option value="bad">Offline</option>
+                    </select>
+                </div>
+            </div>
+            <footer>
+                <button class="btn" id="closeModal">Cancel</button>
+                <button class="btn primary" id="saveDevice">Save</button>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // --- Mock Data -----------------------------------------------------------
+        const state = {
+            theme: (document.documentElement.getAttribute('data-theme') || 'light'),
+            devices: [
+                { id: 'DX-5850i-01', ip: '10.12.8.51', location: 'Amsterdam HQ – 3F', status: 'ok' },
+                { id: 'DX-5850i-02', ip: '10.12.8.52', location: 'Amsterdam HQ – 2F', status: 'ok' },
+                { id: 'DX-4725i-01', ip: '10.12.9.14', location: 'Warehouse – Dock 2', status: 'warn' },
+                { id: 'GX-6040-01', ip: '10.13.4.77', location: 'Retail NL – Utrecht', status: 'bad' },
+                { id: 'DX-6855i-01', ip: '10.14.1.22', location: 'Municipality Breda – Lobby', status: 'ok' },
+                { id: 'DX-5850i-03', ip: '10.12.8.53', location: 'Amsterdam HQ – 1F', status: 'ok' },
+            ],
+            jobs: [
+                { id: 'J-10221', doc: 'Q3_StoreLayouts.pdf', owner: 'sophie@canon.example', type: 'print', pages: 14, device: 'DX-5850i-02' },
+                { id: 'J-10222', doc: 'HR_Onboarding.docx', owner: 'liam@canon.example', type: 'print', pages: 3, device: 'DX-5850i-01' },
+                { id: 'J-10223', doc: 'Invoice_78431.pdf', owner: 'amir@canon.example', type: 'scan', pages: 1, device: 'DX-4725i-01' },
+                { id: 'J-10224', doc: 'Tender_Summary.docx', owner: 'nora@canon.example', type: 'print', pages: 7, device: 'DX-5850i-03' },
+            ],
+            users: [
+                { name: 'Sophie Janssen', email: 'sophie@canon.example', group: 'Retail NL', quota: '700 pages' },
+                { name: 'Liam Vos', email: 'liam@canon.example', group: 'All Staff', quota: '500 pages' },
+                { name: 'Amir Haddad', email: 'amir@canon.example', group: 'Finance', quota: '600 pages' },
+                { name: 'Nora de Boer', email: 'nora@canon.example', group: 'Municipality Ops', quota: '650 pages' },
+            ],
+            defaults: { color: 'bw', duplex: 'on', watermark: 'none', device: 'DX-5850i-01' },
+            costCenters: [
+                { code: 'CC-100', name: 'Retail NL', cap: 3000, used: 1420 },
+                { code: 'CC-200', name: 'Municipal Projects', cap: 5000, used: 2850 },
+                { code: 'CC-300', name: 'Finance', cap: 1500, used: 980 },
+            ],
+            allocations: [{ cc: 'CC-100', group: 'Retail NL' }, { cc: 'CC-200', group: 'Municipality Ops' }],
+            selectedJobId: null
+        };
+
+        // --- Utilities ----------------------------------------------------------
+        const $ = (sel, scope = document) => scope.querySelector(sel);
+        const $$ = (sel, scope = document) => Array.from(scope.querySelectorAll(sel));
+        const fmtEUR = v => '€ ' + v.toLocaleString('nl-NL');
+
+        // --- Theme --------------------------------------------------------------
+        function applyTheme()
+        {
+            document.documentElement.setAttribute('data-theme', state.theme);
+        }
+        $('#themeToggle').addEventListener('click', () =>
+        {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            applyTheme();
+            drawChart(); // redraw for contrast
+        });
+
+        // --- Tabs ---------------------------------------------------------------
+        $$('.tab').forEach(tab =>
+        {
+            tab.addEventListener('click', () =>
+            {
+                $$('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const key = tab.dataset.tab;
+                $$('.panel').forEach(p => p.style.display = (p.dataset.panel === key ? 'block' : 'none'));
+            });
+        });
+
+        // --- Devices ------------------------------------------------------------
+        function renderDevices()
+        {
+            const term = $('#deviceSearch').value.toLowerCase();
+            const filter = $('#deviceFilter').value;
+            const body = $('#deviceRows'); body.innerHTML = '';
+            state.devices
+                .filter(d => (filter === 'all' || d.status === filter))
+                .filter(d => [d.id, d.ip, d.location].join(' ').toLowerCase().includes(term))
+                .forEach(d =>
+                {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+            <td><strong>${d.id}</strong></td>
+            <td>${d.ip}</td>
+            <td>${d.location}</td>
+            <td>${statusBadge(d.status)}</td>
+            <td>
+              <button class="btn" data-action="pause" data-id="${d.id}">⏸ Pause</button>
+              <button class="btn" data-action="restart" data-id="${d.id}">↻ Restart</button>
+              <button class="btn" data-action="delete" data-id="${d.id}">🗑 Remove</button>
+            </td>
+          `;
+                    body.appendChild(tr);
+                });
+            $('#activeDevices').textContent = state.devices.filter(d => d.status === 'ok').length;
+            $('#polDevice').innerHTML = state.devices.map(d => `<option value="${d.id}">${d.id}</option>`).join('');
+        }
+        function statusBadge(s)
+        {
+            const m = { ok: 'ok', warn: 'warn', bad: 'bad' }[s] || '';
+            const t = { ok: 'Online', warn: 'Degraded', bad: 'Offline' }[s] || s;
+            return `<span class="badge ${m}">${t}</span>`;
+        }
+        $('#deviceSearch').addEventListener('input', renderDevices);
+        $('#deviceFilter').addEventListener('change', renderDevices);
+        $('#refreshDevices').addEventListener('click', () => { renderDevices(); pulse('#activeDevices'); });
+
+        // Device row actions (event delegation)
+        $('#deviceRows').addEventListener('click', (e) =>
+        {
+            const btn = e.target.closest('button[data-action]');
+            if (!btn) return;
+            const id = btn.dataset.id;
+            const d = state.devices.find(x => x.id === id);
+            if (!d) return;
+            if (btn.dataset.action === 'pause') { d.status = 'warn'; }
+            if (btn.dataset.action === 'restart') { d.status = 'ok'; }
+            if (btn.dataset.action === 'delete') { state.devices = state.devices.filter(x => x.id !== id); }
+            renderDevices();
+        });
+
+        // --- Modal: Add Device --------------------------------------------------
+        const toggleModal = (open) =>
+        {
+            $('#modalBackdrop').style.display = open ? 'flex' : 'none';
+            $('#modalBackdrop').setAttribute('aria-hidden', open ? 'false' : 'true');
+        };
+        $('#openAddDevice').addEventListener('click', () => toggleModal(true));
+        $('#openAddDevice2').addEventListener('click', () => toggleModal(true));
+        $('#closeModal').addEventListener('click', () => toggleModal(false));
+        $('#saveDevice').addEventListener('click', () =>
+        {
+            const id = $('#mDeviceName').value.trim() || `DX-NEW-${Math.floor(Math.random() * 900 + 100)}`;
+            const ip = $('#mDeviceIP').value.trim() || `10.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+            const loc = $('#mDeviceLoc').value.trim() || 'New Location';
+            const status = $('#mDeviceStatus').value;
+            state.devices.unshift({ id, ip, location: loc, status });
+            toggleModal(false);
+            ['#mDeviceName', '#mDeviceIP', '#mDeviceLoc'].forEach(sel => $(sel).value = '');
+            renderDevices();
+            pulse('#activeDevices');
+        });
+
+        // --- Jobs ---------------------------------------------------------------
+        function renderJobs()
+        {
+            const body = $('#jobRows'); body.innerHTML = '';
+            const term = $('#jobSearch').value.toLowerCase();
+            const filter = $('#jobFilter').value;
+            state.jobs
+                .filter(j => filter === 'all' || j.type === filter)
+                .filter(j => [j.doc, j.owner, j.device].join(' ').toLowerCase().includes(term))
+                .forEach(j =>
+                {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+            <td><strong>${j.doc}</strong></td>
+            <td>${j.owner}</td>
+            <td>${jobTypeBadge(j.type)}</td>
+            <td>${j.pages}</td>
+            <td>${j.device}</td>
+            <td style="text-align:right">
+              <button class="btn" data-job="${j.id}" data-act="preview">👁 Preview</button>
+              <button class="btn primary" data-job="${j.id}" data-act="release">✅ Release</button>
+            </td>
+          `;
+                    body.appendChild(tr);
+                });
+            $('#queueLen').textContent = state.jobs.length;
+            $('#jobsToday').textContent = 128 + Math.max(0, (state.jobs.length - 15));
+        }
+        function jobTypeBadge(t)
+        {
+            const map = { print: ['Print', 'ok'], scan: ['Scan', 'warn'], fax: ['Fax', 'bad'] };
+            const [txt, cls] = map[t] || [t, ''];
+            return `<span class="badge ${cls}">${txt}</span>`;
+        }
+        $('#jobSearch').addEventListener('input', renderJobs);
+        $('#jobFilter').addEventListener('change', renderJobs);
+        $('#jobRows').addEventListener('click', (e) =>
+        {
+            const btn = e.target.closest('button[data-act]');
+            if (!btn) return;
+            const id = btn.dataset.job;
+            const job = state.jobs.find(j => j.id === id);
+            if (!job) return;
+            if (btn.dataset.act === 'preview')
+            {
+                state.selectedJobId = id;
+                $('#jobPreview').innerHTML = `
+          <div class="tiny">Document: <strong>${job.doc}</strong> • Owner: ${job.owner}</div>
+          <ul class="tiny">
+            <li>Suggested: Duplex ON (save ~${Math.ceil(job.pages / 2)} pages)</li>
+            <li>Suggested: Black/White — reduce cost</li>
+            <li>Device Load: ${deviceLoad(job.device)}%</li>
+          </ul>
+        `;
+            }
+            if (btn.dataset.act === 'release')
+            {
+                state.jobs = state.jobs.filter(j => j.id !== id);
+                if (state.selectedJobId === id) state.selectedJobId = null, $('#jobPreview').textContent = 'Select a job to preview policy suggestions (duplex, b/w, watermark).';
+                renderJobs();
+            }
+        });
+        function deviceLoad(id)
+        {
+            const seed = id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+            return (seed % 60) + 20;
+        }
+        $('#simulateJob').addEventListener('click', () =>
+        {
+            const id = 'J-' + (10000 + Math.floor(Math.random() * 9000));
+            const docs = ['Report.pdf', 'Schedule.docx', 'Design.sketch', 'Offer.xlsx', 'Manifest.json'];
+            const owners = state.users.map(u => u.email);
+            const devs = state.devices.map(d => d.id);
+            state.jobs.unshift({
+                id,
+                doc: docs[Math.floor(Math.random() * docs.length)],
+                owner: owners[Math.floor(Math.random() * owners.length)],
+                type: ['print', 'scan'][Math.floor(Math.random() * 2)],
+                pages: Math.floor(Math.random() * 18) + 1,
+                device: devs[Math.floor(Math.random() * devs.length)]
+            });
+            renderJobs(); pulse('#queueLen');
+        });
+        $('#releaseAll').addEventListener('click', () =>
+        {
+            state.jobs = [];
+            renderJobs(); pulse('#queueLen');
+        });
+
+        // Policy actions (jobs)
+        $('#applyPolicy').addEventListener('click', () =>
+        {
+            if (!state.selectedJobId) { alert('Select a job first.'); return; }
+            const opts = {
+                duplex: $('#policyDuplex').checked,
+                bw: $('#policyBW').checked,
+                watermark: $('#policyWatermark').checked
+            };
+            $('#jobPreview').innerHTML += `<div class="tiny">Applied: ${opts.duplex ? 'Duplex, ' : ''}${opts.bw ? 'B/W, ' : ''}${opts.watermark ? 'Watermark' : ''}</div>`;
+        });
+        $('#discardPolicy').addEventListener('click', () =>
+        {
+            $('#policyDuplex').checked = $('#policyBW').checked = $('#policyWatermark').checked = false;
+            $('#jobPreview').textContent = 'Select a job to preview policy suggestions (duplex, b/w, watermark).';
+        });
+
+        // --- Users & Defaults ---------------------------------------------------
+        function renderUsers()
+        {
+            const term = $('#userSearch').value.toLowerCase();
+            const body = $('#userRows'); body.innerHTML = '';
+            state.users
+                .filter(u => (u.name + u.email + u.group).toLowerCase().includes(term))
+                .forEach(u =>
+                {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td><strong>${u.name}</strong></td><td>${u.email}</td><td>${u.group}</td><td>${u.quota}</td>`;
+                    body.appendChild(tr);
+                });
+            // defaults selectors
+            $('#polColor').value = state.defaults.color;
+            $('#polDuplex').value = state.defaults.duplex;
+            $('#polWatermark').value = state.defaults.watermark;
+            $('#polDevice').value = state.defaults.device;
+        }
+        $('#userSearch').addEventListener('input', renderUsers);
+        $('#syncAAD').addEventListener('click', () =>
+        {
+            // mock add
+            state.users.push({ name: 'Eva Kuipers', email: 'eva@canon.example', group: 'All Staff', quota: '500 pages' });
+            renderUsers();
+        });
+        $('#saveDefaultPolicy').addEventListener('click', () =>
+        {
+            state.defaults = {
+                color: $('#polColor').value,
+                duplex: $('#polDuplex').value,
+                watermark: $('#polWatermark').value,
+                device: $('#polDevice').value
+            };
+            const note = $('#policySavedNote');
+            note.style.display = 'inline';
+            setTimeout(() => note.style.display = 'none', 1600);
+        });
+
+        // --- Cost Centers -------------------------------------------------------
+        function renderCostCenters()
+        {
+            const term = $('#ccSearch').value.toLowerCase();
+            const body = $('#ccRows'); body.innerHTML = '';
+            state.costCenters
+                .filter(c => (c.code + c.name).toLowerCase().includes(term))
+                .forEach(c =>
+                {
+                    const usedPct = Math.min(100, Math.round((c.used / c.cap) * 100));
+                    const status = usedPct < 70 ? 'ok' : usedPct < 95 ? 'warn' : 'bad';
+                    body.insertAdjacentHTML('beforeend', `
+            <tr>
+              <td><strong>${c.code}</strong></td>
+              <td>${c.name}</td>
+              <td>${fmtEUR(c.cap)}</td>
+              <td>${fmtEUR(c.used)} (${usedPct}%)</td>
+              <td>${statusBadge(status)}</td>
+            </tr>
+          `);
+                });
+            // fill selects
+            $('#ccSelect').innerHTML = state.costCenters.map(c => `<option value="${c.code}">${c.code} — ${c.name}</option>`).join('');
+            renderAllocations();
+        }
+        $('#ccSearch').addEventListener('input', renderCostCenters);
+        $('#newCC').addEventListener('click', () =>
+        {
+            const code = 'CC-' + (100 + Math.floor(Math.random() * 900));
+            state.costCenters.push({ code, name: 'New Center', cap: 2000, used: 0 });
+            renderCostCenters();
+        });
+        $('#assignGroup').addEventListener('click', () =>
+        {
+            state.allocations.push({ cc: $('#ccSelect').value, group: $('#groupSelect').value });
+            renderAllocations();
+            const n = $('#ccAssignedNote'); n.style.display = 'inline'; setTimeout(() => n.style.display = 'none', 1500);
+        });
+        function renderAllocations()
+        {
+            const box = $('#allocationList');
+            if (!state.allocations.length) { box.textContent = 'No allocations yet.'; return; }
+            box.innerHTML = state.allocations.map(a => `• ${a.group} → ${a.cc}`).join('<br/>');
+        }
+
+        // --- Chart --------------------------------------------------------------
+        function drawChart()
+        {
+            const canvas = $('#chart'), ctx = canvas.getContext('2d');
+            const w = canvas.width = canvas.clientWidth * devicePixelRatio;
+            const h = canvas.height = 120 * devicePixelRatio;
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // grid
+            ctx.globalAlpha = .15;
+            ctx.strokeStyle = (document.documentElement.getAttribute('data-theme') === 'light') ? '#0b1424' : '#e6eaf2';
+            ctx.lineWidth = 1;
+            for (let y = 20; y < 120; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.clientWidth, y); ctx.stroke(); }
+            ctx.globalAlpha = 1;
+            // data
+            const data = Array.from({ length: 14 }, (_, i) => 50 + Math.sin(i * .6) * 20 + Math.random() * 12);
+            const max = Math.max(...data) + 10;
+            ctx.beginPath();
+            data.forEach((v, i) =>
+            {
+                const x = (i / (data.length - 1)) * canvas.clientWidth;
+                const y = 110 - (v / max) * 90;
+                i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+            });
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#e6002d';
+            ctx.stroke();
+            // fill
+            const g = ctx.createLinearGradient(0, 0, 0, 120);
+            g.addColorStop(0, 'rgba(230,0,45,.25)');
+            g.addColorStop(1, 'rgba(230,0,45,0)');
+            ctx.lineTo(canvas.clientWidth, 120); ctx.lineTo(0, 120); ctx.closePath();
+            ctx.fillStyle = g; ctx.fill();
+        }
+
+        // --- Tour ---------------------------------------------------------------
+        $('#quickTour').addEventListener('click', () =>
+        {
+            alert([
+                'Quick Tour',
+                '1) Devices: add/pause/restart and filter.',
+                '2) Job Queue: preview/release jobs; apply mock policies.',
+                '3) Users & Policies: set default print behavior.',
+                '4) Cost Centers: caps & group allocation.',
+                'Tip: Try Theme toggle, Export state.'
+            ].join('\n'));
+        });
+
+        // --- Export demo state --------------------------------------------------
+        $('#exportState').addEventListener('click', () =>
+        {
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'uniflow-demo-state.json'; a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // --- Tenant switch (mock) ----------------------------------------------
+        $('#tenantSwitch').addEventListener('click', (e) =>
+        {
+            const names = ['Canon Europe', 'Canon Nordics', 'Canon DACH', 'Canon UKI'];
+            const current = e.target.textContent.replace('🏢 Tenant: ', '').trim();
+            const next = names[(names.indexOf(current) + 1) % names.length];
+            e.target.textContent = '🏢 Tenant: ' + next;
+            pulse('#tenantSwitch');
+        });
+
+        // --- Small helpers ------------------------------------------------------
+        function pulse(sel)
+        {
+            const el = typeof sel === 'string' ? $(sel) : sel;
+            el.style.transition = 'transform .15s ease';
+            el.style.transform = 'scale(1.06)';
+            setTimeout(() => { el.style.transform = 'scale(1)'; }, 160);
+        }
+
+        // --- Init ---------------------------------------------------------------
+        function init()
+        {
+            applyTheme();
+            renderDevices();
+            renderJobs();
+            renderUsers();
+            renderCostCenters();
+            drawChart();
+        }
+        window.addEventListener('resize', drawChart);
+        init();
+    </script>
+</body>
+
+</html>
